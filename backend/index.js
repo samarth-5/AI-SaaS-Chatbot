@@ -1,9 +1,15 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import morgan from 'morgan';
+
+import userRoutes from './Routes/userRoute.js';
+import chatRoutes from './Routes/chatRoute.js';
 
 const app=express();
 app.use(express.json());
+
+app.use(morgan("dev"));
 
 dotenv.config();
 
@@ -26,3 +32,6 @@ const PORT=process.env.PORT || PORT;
 app.listen(PORT,()=>{
     console.log("Server is running on port 5000");
 });
+
+app.use("/api/user",userRoutes);
+app.use("/api/chats",chatRoutes);
