@@ -1,5 +1,6 @@
 import User from "../Models/userModel.js";
 import bcryptjs from 'bcryptjs';
+import { createToken } from "../Utils/token.js";
 
 export const getAllUsers = async(req,res,next)=>{
     try{
@@ -35,12 +36,18 @@ export const login = async(req,res,next)=>{
     try{
         const existingUser = await User.findOne({email});
         if(!existingUser)
-        return res.status(402).json({message:'User does not exist!'});
+        return res.status(404).json({message:'User does not exist!'});
         const validPassword=bcryptjs.compareSync(password,existingUser.password);
         if(!validPassword)
-        return res.status(402).json({message:'Invalid credentials!'});
-
-        return res.status(201).json({message: "Login Successfull!", id: existingUser._id.toString()});
+        return res.status(401).json({message:'Invalid credentials!'});
+        
+        const token=createToken(existingUser._id.toString(),existingUser.email,"7d");
+        //console.log(existingUser);
+        const {password:pass,...rest}=existingUser._doc;
+       
+        return res.status(200)
+                  .cookie('access_token',token,{httpOnly:true})
+                  .json({message: "Login Successfull!", rest});
     }
     catch(err){
         return res.status(403).json({message:"Unable to login!"});
