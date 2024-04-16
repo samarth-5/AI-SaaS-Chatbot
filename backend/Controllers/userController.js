@@ -19,8 +19,11 @@ export const signup = async(req,res,next)=>{
         return res.status(400).json({message:'All fields are required!'});
     }
     try{
-        if(User.find({email}))
-        return res.status(402).json({message:'Account already exists!'});
+        const existingUser=await User.findOne({email});
+        if(existingUser)
+        {
+            //console.log(res);
+            return res.status(402).json({message:'Account already exists!'});}
         const hashedPassword = bcryptjs.hashSync(password,10);
         const newUser = new User({name,email,password:hashedPassword});
         await newUser.save();        
