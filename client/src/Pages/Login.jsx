@@ -48,7 +48,7 @@ export default function Login() {
       if(res.ok)
       {
         dispatch(signInSuccess(data));
-        navigate('/chats');
+        navigate('/');
       }
     }
     catch(err){
