@@ -31,7 +31,7 @@ export default function Header() {
   }
 
   return (
-    <Navbar className='border-b-2 flex items-center mx-auto bg-[#081625] p-0'>
+    <Navbar className='border-b-2 flex items-center mx-auto bg-[#01012e] p-0'>
       <Link to='/'>
         <Icon />
       </Link>
