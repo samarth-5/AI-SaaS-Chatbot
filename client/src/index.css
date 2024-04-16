@@ -1,9 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
-
-html,body{
-  margin: 0;
-  padding: 0;
-  background: #05101c;
-  color: white;
-  font-family: "Comfortaa", sans-serif;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
