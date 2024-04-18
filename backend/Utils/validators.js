@@ -29,7 +29,3 @@ export const signupValidator = [
   body("email").trim().isEmail().withMessage("Email is required!"),
   body("password").trim().isLength({ min: 4 }).withMessage("Password should contain atleast 4 characters!")
 ];
-
-export const chatCompletionValidator = [
-  body("message").notEmpty().withMessage("Message  is required!"),
-];

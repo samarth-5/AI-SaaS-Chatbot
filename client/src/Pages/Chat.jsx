@@ -3,6 +3,8 @@ import {Card, Button, Avatar} from 'flowbite-react';
 import { PiPaperPlaneRightFill } from "react-icons/pi";
 import ChatItem from '../Components/ChatItem';
 import {useSelector} from 'react-redux';
+import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter';
+import { coldarkCold } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 // const chatMessages=[
 //   {
@@ -52,16 +54,39 @@ export default function Chat() {
 
   const handleDelete=async()=>{}
 
+  
+  const sendChatRequest=async(message)=>{
+    //console.log(message);
+    try{
+      const res=await fetch('/api/chat/new',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(message),
+      });
+      if(!res.ok)
+      console.log("Unable to send chat");
+      const data=await res.json();
+      return data;
+    }
+    catch(err){
+      console.log(err);
+    }
+  }
+
   const handleChange=(e)=>{
     setFormData(e.target.value);
   }
 
-  const handleSubmit=()=>{
+  const handleSubmit=async()=>{
     const content=formData;
     const newMessage={role:"user", content};
     setChatMessages([...chatMessages, newMessage]);
     setFormData('');
-    console.log(formData);
+
+    const chatData=await sendChatRequest(newMessage);
+    //console.log(chatData);
+    //console.log(chatMessages);
+    setChatMessages([...chatMessages, chatData]);
   }
 
   return (
