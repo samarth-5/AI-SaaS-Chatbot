@@ -17,7 +17,20 @@ export default function Chat() {
   const firstLetter=user.currentUser.rest.name.charAt(0);
   //console.log(firstLetter);
 
-  const handleDelete=async()=>{}
+  const handleDelete=async()=>{
+    try{
+      const res=await fetch(`/api/chat/delete/${user.currentUser.rest._id}`,{
+        method:'PUT',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(user)
+      });
+      const data=await res.json();
+      setChatMessages([]);
+    }
+    catch(err){
+      console.log(err);
+    }
+  }
 
   useEffect(()=>{
     const getOldMessages=async()=>{
@@ -85,8 +98,8 @@ export default function Chat() {
         <h1 className='text-[40px] text-bold text-center'>MODEL - GPT 3.5 TURBO</h1>
         <div className='h-[65vh] rounded overflow-auto pb-4'>
           {
-            chatMessages.map((chat)=>(
-              <div>
+            chatMessages && chatMessages.map((chat)=>(
+              <div key={chat.id}>
                 <ChatItem role={chat.role} content={chat.content} firstLetter={firstLetter} />
               </div>
             ))

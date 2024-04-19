@@ -55,3 +55,15 @@ export const generateChatCompletion = async(req,res,next)=>{
         return res.status(500).json({ message: "Something went wrong!!" });
     }
 }
+
+export const deleteChat=async(req,res,next)=>{
+    try{
+        const updatedUser=await User.findByIdAndUpdate(req.params.id,{$set: {chats: []}},
+                                                                                {new: true});
+        console.log(updatedUser);
+        res.status(200).json(updatedUser);
+    }
+    catch(err){
+        console.log(err);
+    }
+}
