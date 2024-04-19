@@ -2,7 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
-//import cookieParser from 'cookie-parser'; 
+import cookieParser from 'cookie-parser'; 
 
 import userRoutes from './Routes/userRoute.js';
 import chatRoutes from './Routes/chatRoute.js';
@@ -10,7 +10,7 @@ import chatRoutes from './Routes/chatRoute.js';
 const app=express();
 app.use(express.json());
 
-//app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(cookieParser(process.env.COOKIE_SECRET));
 
 app.use(morgan("dev"));
 
