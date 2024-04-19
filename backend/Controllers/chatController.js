@@ -1,6 +1,21 @@
 import User from "../Models/userModel.js";
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
+export const getOldMessages=async(req,res,next)=>{
+    try{
+        const existingUser=await User.findById(req.params.id);
+        if(!existingUser)
+        {
+            return res.status(404).json({message:'User does not exist!'});
+        }
+        const chats=existingUser.chats;
+        res.status(200).json(chats);
+    }
+    catch(err){
+        next(err);
+    }
+}
+
 export const generateChatCompletion = async(req,res,next)=>{
     const message=req.body;
     try{
@@ -28,8 +43,8 @@ export const generateChatCompletion = async(req,res,next)=>{
             const result = await model.generateContent(prompt);
             const response = await result.response;
             const text = response.text();
-            chats.push({role: "assisstant", content: text});
-            console.log(chats);
+            chats.push({role: "assistant", content: text});
+            //console.log(chats);
             const updatedUser=await User.findByIdAndUpdate(existingUser._id,{$set:{chats}},{new: true});
             return res.status(200).json(updatedUser);
         }

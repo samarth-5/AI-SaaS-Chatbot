@@ -4,10 +4,7 @@ import ai from '../assets/gpt.png';
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter';
 import { coldarkCold } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
-export default function ChatItem({role,content,firstLetter}) {
-  // const extratCodeFromString = (msg)=>{
-  //   if(msg.c)
-  // } 
+export default function ChatItem({role,content,firstLetter}) { 
   return (
     <>
       {

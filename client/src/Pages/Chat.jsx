@@ -1,43 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {Card, Button, Avatar} from 'flowbite-react';
 import { PiPaperPlaneRightFill } from "react-icons/pi";
 import ChatItem from '../Components/ChatItem';
 import {useSelector} from 'react-redux';
 
-// const chatMessages=[
-//   {
-//       role: "user",
-//       content: "Hi there! How can I help you today?"
-//   },
-//   {
-//       role: "assistant",
-//       content: "Hello! I'm here to assist you. What do you need help with?"
-//   },
-//   {
-//       role: "user",
-//       content: "I'm having some trouble with my computer. It keeps crashing."
-//   },
-//   {
-//       role: "assistant",
-//       content: "I can help with that. Have you tried restarting your computer?"
-//   },
-//   {
-//       role: "user",
-//       content: "Yes, I've tried that a few times already."
-//   },
-//   {
-//       role: "assistant",
-//       content: "Let's try running a virus scan to see if there's any malware causing the issue."
-//   },
-//   {
-//       role: "user",
-//       content: "Good idea. I'll do that right now."
-//   },
-//   {
-//       role: "assistant",
-//       content: "Let me know if you need further assistance after the scan completes."
-//   }
-// ];
 
 export default function Chat() {
 
@@ -46,11 +12,27 @@ export default function Chat() {
 
   //console.log(formData);
 
-  const user=useSelector(state=>state.user);
+  const user=useSelector((state)=>state.user);
+  
   const firstLetter=user.currentUser.rest.name.charAt(0);
   //console.log(firstLetter);
 
   const handleDelete=async()=>{}
+
+  useEffect(()=>{
+    const getOldMessages=async()=>{
+      try{
+        const res=await fetch(`/api/chat/old/${user.currentUser.rest._id}`);
+        const data=await res.json();
+        setChatMessages(data);
+      }
+      catch(err){
+        console.log(err);
+      }
+    }
+    getOldMessages();
+  },[]);
+  
 
   
   const sendChatRequest=async(message)=>{
