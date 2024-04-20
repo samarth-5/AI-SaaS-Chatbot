@@ -58,7 +58,9 @@ export default function Chat() {
       if(!res.ok)
       console.log("Unable to send chat");
       const data=await res.json();
-      return data;
+      //console.log(data.chats[data.chats.length-1].content);
+      const newMessage={role:"assistant", content:data.chats[data.chats.length-1].content, id:user.currentUser.rest._id};
+      return newMessage;
     }
     catch(err){
       console.log(err);
@@ -75,10 +77,8 @@ export default function Chat() {
     setChatMessages([...chatMessages, newMessage]);
     setFormData('');
 
-    const updatedUser=await sendChatRequest(newMessage);
-    //console.log(chatData);
-    //console.log(chatMessages);
-    setChatMessages([...chatMessages, updatedUser.chats]);
+    const newMsg=await sendChatRequest(newMessage);
+    setChatMessages([...chatMessages,newMessage,newMsg]);
   }
 
   return (
@@ -99,8 +99,8 @@ export default function Chat() {
         <div className='h-[65vh] rounded overflow-auto pb-4'>
           {
             chatMessages && chatMessages.map((chat)=>(
-              <div key={chat.id}>
-                <ChatItem role={chat.role} content={chat.content} firstLetter={firstLetter} />
+              <div key={chat._id}>
+                <ChatItem role={chat.role} content={chat.content} firstLetter={firstLetter} key={chat._id} />
               </div>
             ))
           }
