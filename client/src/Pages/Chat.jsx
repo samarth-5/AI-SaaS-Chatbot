@@ -14,7 +14,7 @@ export default function Chat() {
 
   const user=useSelector((state)=>state.user);
   
-  const firstLetter=user.currentUser.rest.name.charAt(0);
+  const firstLetter=user.currentUser.rest.name.charAt(0).toUpperCase();
   //console.log(firstLetter);
 
   const handleDelete=async()=>{
@@ -95,7 +95,7 @@ export default function Chat() {
         </Card>
       </div>
       <div className='w-full'>
-        <h1 className='text-[40px] text-bold text-center'>MODEL - GPT 3.5 TURBO</h1>
+        <h1 className='text-[40px] text-bold text-center font-serif'>MODEL - GEMINI PRO 3.5</h1>
         <div className='h-[65vh] rounded overflow-auto pb-4'>
           {
             chatMessages && chatMessages.map((chat)=>(
