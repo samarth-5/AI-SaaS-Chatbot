@@ -72,6 +72,8 @@ export default function Chat() {
   }
 
   const handleSubmit=async()=>{
+    if(!formData)
+    return;
     const content=formData;
     const newMessage={role:"user", content, id:user.currentUser.rest._id};
     setChatMessages([...chatMessages, newMessage]);
@@ -106,7 +108,8 @@ export default function Chat() {
           }
         </div>
         <div className='flex items-center mt-2'>
-          <input placeholder='Type your message...' type="text" className='bg-[#0f1f60] w-full p-3 rounded' value={formData} required onChange={handleChange} />
+          <input placeholder='Type your message...' type="text" className='bg-[#0f1f60] w-full p-3 rounded' 
+                 value={formData} required onChange={handleChange} onKeyDown={ (e)=>{if(e.key==='Enter') handleSubmit();}} />
           <PiPaperPlaneRightFill className='relative right-10 cursor-pointer' size={30} onClick={handleSubmit} />
         </div>
       </div>

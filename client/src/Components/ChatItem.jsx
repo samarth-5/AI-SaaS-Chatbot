@@ -6,25 +6,16 @@ import { coldarkDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 export default function ChatItem({role,content,firstLetter}) { 
 
-  function extractCodeFromString(message) {
+  const extractCodeFromString = (message) => {
     if (message.includes("```")) {
       const blocks = message.split("```");
       return blocks;
     }
   }
-  function isCodeBlock(str) {
-    if (
-      str.includes("=") ||
-      str.includes(";") ||
-      str.includes("[") ||
-      str.includes("]") ||
-      str.includes("{") ||
-      str.includes("}") ||
-      str.includes("#") ||
-      str.includes("//")
-    ) {
-      return true;
-    }
+  const isCodeBlock = (str) => {
+    if (str.includes("=") || str.includes(";") || str.includes("[") || str.includes("]") ||
+        str.includes("{") || str.includes("}") || str.includes("#") || str.includes("//")) 
+    return true;
     return false;
   }
   const messageBlocks = extractCodeFromString(content);
@@ -33,7 +24,9 @@ export default function ChatItem({role,content,firstLetter}) {
     <>
       {
         role==='assistant' ? (<div className='p-2 flex gap-2 my-2 bg-[#07073d] rounded'>
-            <Avatar img={ai} alt="ai" rounded />
+            <div style={{ alignSelf: 'flex-start' }} className='mt-2'>
+              <Avatar img={ai} alt="ai" rounded />
+            </div>
             {
               !messageBlocks && (                
                 <div className='w-full flex items-center font-mono'>{content}</div>
